@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { PHOTO_API } from "../constants";
 
@@ -47,12 +47,22 @@ const OverlayCheckbox = styled.div`
   }
 `;
 
+const initialState = {
+  images: [],
+  imagesSelected: [],
+};
+
 const PhotoGrid = () => {
+  const [state, setState] = useState(initialState);
+
   useEffect(() => {
     fetch(PHOTO_API)
       .then(async (response) => {
-        const res = await response.json();
-        console.log(res);
+        const resolvedResponse = await response.json();
+        setState((prevState) => {
+          return { ...prevState, images: [...resolvedResponse.photos] };
+        });
+        return resolvedResponse;
       })
       .catch((error) => console.log("ERROR:", error));
   }, []);
@@ -61,7 +71,6 @@ const PhotoGrid = () => {
     <PhotoGridContainer>
       {}
       <PhotoGridColumn>
-        
         <OverlayCheckbox />
       </PhotoGridColumn>
     </PhotoGridContainer>
