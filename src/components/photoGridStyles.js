@@ -1,13 +1,19 @@
 import styled from "styled-components";
 
+// The main div container
 export const PhotoGridContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 0 4px;
+  width: 100%;
+  box-sizing: border-box;
 `;
+
+// Flex column container
 export const PhotoGridColumn = styled.div`
-  flex: 25%;
-  max-width: 25%;
+  flex: 20%;
+  max-width: 100%;
+  min-width: 20%;
   padding: 0 4px;
 
   img {
@@ -27,23 +33,24 @@ export const PhotoGridColumn = styled.div`
   }
 `;
 
-export const OverlayCheckbox = styled.div`
+// Overlay component to select the photo
+export const OverlayCheckbox = styled.input`
   position: absolute;
-  top: 0;
+  top: 10px;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
+  height: 30px;
+  width: 30px;
+  opacity: 0.5;
   transition: 0.3s ease;
-  background-color: red;
 
   :hover {
     opacity: 1;
   }
 `;
 
+// Contains the img and the overlay checkbox
 export const ImageCard = styled.div`
   position: relative;
 `;
