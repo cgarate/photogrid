@@ -19,14 +19,13 @@ const PhotoGrid = () => {
   const splitImagesData = aperture(4, state.images);
 
   const selectImage = (id) => {
-    setState((prevState) => {
-      return {
-        ...prevState,
-        imagesSelected: [...prevState.imagesSelected, id],
-      };
-    });
+    setState((prevState) => ({
+      ...prevState,
+      imagesSelected: [...prevState.imagesSelected, id],
+    }));
   };
 
+  // Initialize the state with data from the API
   useEffect(() => {
     fetch(PHOTO_API)
       .then(async (response) => {
@@ -48,7 +47,7 @@ const PhotoGrid = () => {
               return (
                 <ImageCard>
                   <img key={image.id} src={image.url} />
-                  <OverlayCheckbox onClick={() => selectImage(image.id)} />
+                  <OverlayCheckbox type="checkbox" onClick={() => selectImage(image.id)} />
                 </ImageCard>
               );
             })}
