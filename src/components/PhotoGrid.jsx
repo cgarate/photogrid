@@ -8,6 +8,7 @@ import {
   ImageCard,
 } from "./photoGridStyles";
 import { PHOTO_API } from "../constants";
+import FooterPhotoGrid from "./FooterPhotoGrid";
 
 const initialState = {
   images: [],
@@ -16,8 +17,10 @@ const initialState = {
 
 const PhotoGrid = () => {
   const [state, setState] = useState(initialState);
+  // Split the array of images so we can loop columns
   const splitImagesData = aperture(4, state.images);
 
+  // Handler for onClick and select images
   const selectImage = (id) => {
     setState((prevState) => ({
       ...prevState,
@@ -39,22 +42,28 @@ const PhotoGrid = () => {
   }, []);
 
   return (
-    <PhotoGridContainer>
-      {splitImagesData.map((imagesColumn, index) => {
-        return (
-          <PhotoGridColumn key={`column-${index}`}>
-            {imagesColumn.map((image) => {
-              return (
-                <ImageCard>
-                  <img key={image.id} src={image.url} />
-                  <OverlayCheckbox type="checkbox" onClick={() => selectImage(image.id)} />
-                </ImageCard>
-              );
-            })}
-          </PhotoGridColumn>
-        );
-      })}
-    </PhotoGridContainer>
+    <>
+      <PhotoGridContainer>
+        {splitImagesData.map((imagesColumn, index) => {
+          return (
+            <PhotoGridColumn key={`column-${index}`}>
+              {imagesColumn.map((image) => {
+                return (
+                  <ImageCard>
+                    <img key={image.id} src={image.url} />
+                    <OverlayCheckbox
+                      type="checkbox"
+                      onClick={() => selectImage(image.id)}
+                    />
+                  </ImageCard>
+                );
+              })}
+            </PhotoGridColumn>
+          );
+        })}
+      </PhotoGridContainer>
+      <FooterPhotoGrid />
+    </>
   );
 };
 

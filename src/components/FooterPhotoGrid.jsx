@@ -6,9 +6,9 @@ import {
   FlexContainer,
   AvatarContainer,
   FooterMessages,
-} from "./footerStyles";
+} from "./footerPhotoGridStyles";
 
-const Footer = () => {
+const FooterPhotoGrid = () => {
   return (
     <FooterContainer>
       <FlexContainer>
@@ -21,4 +21,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default FooterPhotoGrid;
