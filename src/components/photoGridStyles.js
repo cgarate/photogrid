@@ -34,14 +34,16 @@ export const PhotoGridColumn = styled.div`
 `;
 
 // Overlay component to select the photo
-export const OverlayCheckbox = styled.input`
+export const OverlayCheckbox = styled.div`
+  border: 2px solid #999999;
+  border-radius: 50%;
   position: absolute;
-  top: 10px;
+  top: 15px;
   bottom: 0;
-  left: 0;
+  left: 5px;
   right: 0;
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
   opacity: 0.5;
   transition: 0.3s ease;
 

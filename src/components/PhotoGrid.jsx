@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { aperture } from "ramda";
+import { splitEvery } from "ramda";
+import { AiFillCheckCircle } from "react-icons/ai";
 
 import {
   PhotoGridContainer,
@@ -18,14 +19,21 @@ const initialState = {
 const PhotoGrid = () => {
   const [state, setState] = useState(initialState);
   // Split the array of images so we can loop columns
-  const splitImagesData = aperture(4, state.images);
+  const splitImagesData = splitEvery(4, state.images);
 
   // Handler for onClick and select images
   const selectImage = (id) => {
-    setState((prevState) => ({
-      ...prevState,
-      imagesSelected: [...prevState.imagesSelected, id],
-    }));
+    setState((prevState) => {
+      const idIsCurrentlySelected = prevState.imagesSelected.includes(id);
+      const newImagesSelected = idIsCurrentlySelected
+        ? prevState.imagesSelected.filter((imageId) => imageId !== id)
+        : [...prevState.imagesSelected, id];
+      return { ...prevState, imagesSelected: newImagesSelected };
+    });
+  };
+
+  const clearSelection = () => {
+    setState((prevState) => ({ ...prevState, imagesSelected: [] }));
   };
 
   // Initialize the state with data from the API
@@ -48,13 +56,21 @@ const PhotoGrid = () => {
           return (
             <PhotoGridColumn key={`column-${index}`}>
               {imagesColumn.map((image) => {
+                const idIsCurrentlySelected = state.imagesSelected.includes(
+                  image.id,
+                );
                 return (
                   <ImageCard>
                     <img key={image.id} src={image.url} />
-                    <OverlayCheckbox
-                      type="checkbox"
-                      onClick={() => selectImage(image.id)}
-                    />
+                    <OverlayCheckbox onClick={() => selectImage(image.id)}>
+                      {idIsCurrentlySelected ? (
+                        <AiFillCheckCircle
+                          style={{ marginRight: "10px" }}
+                          font-size="1.5rem"
+                          color="blue"
+                        />
+                      ) : null}
+                    </OverlayCheckbox>
                   </ImageCard>
                 );
               })}
@@ -62,7 +78,10 @@ const PhotoGrid = () => {
           );
         })}
       </PhotoGridContainer>
-      <FooterPhotoGrid />
+      <FooterPhotoGrid
+        countSelected={state.imagesSelected.length}
+        clearSelection={clearSelection}
+      />
     </>
   );
 };
