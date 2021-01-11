@@ -8,13 +8,13 @@ import {
   FlexContainer,
   Container,
 } from "./footerPhotoGridStyles";
-import ShowSelected from "./ShowSelected";
+import ShowSelectedCount from "./ShowSelectedCount";
 
 const FooterPhotoGrid = ({ countSelected, clearSelection }) => {
   return (
     <FooterContainer>
       <FlexContainer>
-        <ShowSelected
+        <ShowSelectedCount
           countSelected={countSelected}
           clearSelection={clearSelection}
         />

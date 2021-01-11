@@ -4,7 +4,7 @@ import { BsFillXSquareFill } from "react-icons/bs";
 
 import { FooterSelectedCount } from "./footerPhotoGridStyles";
 
-const ShowSelected = ({ countSelected, clearSelection }) => {
+const ShowSelectedCount = ({ countSelected, clearSelection }) => {
   return (
     <FooterSelectedCount>
       {countSelected > 0 ? (
@@ -20,9 +20,9 @@ const ShowSelected = ({ countSelected, clearSelection }) => {
   );
 };
 
-ShowSelected.propTypes = {
+ShowSelectedCount.propTypes = {
   countSelected: PropTypes.number,
   clearSelection: PropTypes.func,
 };
 
-export default ShowSelected;
+export default ShowSelectedCount;
