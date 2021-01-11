@@ -10,7 +10,7 @@ const ShowSelected = ({ countSelected, clearSelection }) => {
       {countSelected > 0 ? (
         <BsFillXSquareFill
           style={{ marginRight: "10px" }}
-          font-size="1.5rem"
+          fontSize="1.5rem"
           color="#ff7700"
           onClick={clearSelection}
         />

@@ -23,11 +23,11 @@ const FooterPhotoGrid = ({ countSelected, clearSelection }) => {
           {countSelected > 0 ? (
             <BiShareAlt
               style={{ marginRight: "10px" }}
-              font-size="2rem"
+              fontSize="2rem"
               color="#999999"
             />
           ) : null}
-          <BsPersonBoundingBox font-size="2rem" color="#999999" />
+          <BsPersonBoundingBox fontSize="2rem" color="#999999" />
         </Container>
       </FlexContainer>
     </FooterContainer>
