@@ -62,7 +62,7 @@ const PhotoGrid = () => {
                 return (
                   <ImageCard onClick={() => selectImage(image.id)}>
                     <img key={image.id} src={image.url} />
-                    <OverlayCheckbox setSelected={idIsCurrentlySelected}>
+                    <OverlayCheckbox showCheckboxIcon={idIsCurrentlySelected}>
                       {idIsCurrentlySelected ? (
                         <AiFillCheckCircle
                           style={{
