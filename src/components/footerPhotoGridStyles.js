@@ -17,8 +17,13 @@ export const FlexContainer = styled.div`
   justify-content: space-between;
 `;
 
-export const AvatarContainer = styled.div`
+export const Container = styled.div`
   padding: 10px;
 `;
 
-export const FooterMessages = styled(AvatarContainer)``;
+export const FooterSelectedCount = styled(Container)`
+  font-size: 1.25rem;
+  font-weight: bold;
+`;
+export const FooterClearSelection = styled(Container)``;
+export const FooterShare = styled(Container)``;
