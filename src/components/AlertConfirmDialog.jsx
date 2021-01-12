@@ -36,7 +36,6 @@ const AlertConfirmDialog = ({ imagesSelected }) => {
   const uploadPhotos = () => {
     setShowDialog(false);
     imagesSelected.forEach((imageId) => {
-      const data = { id: imageId };
       fetchURL(`${UPLOAD_PHOTO_API}${imageId}`, postRequestInit)
         .then((parsedData) => console.log("Data", parsedData))
         .catch((error) => {
