@@ -11,15 +11,38 @@ import {
   ConfirmButton,
   AlertButton,
 } from "./AlertConfirmDialogStyles";
+// import useUploadPhoto from "../hooks/useUploadPhoto";
+import { UPLOAD_PHOTO_API } from "../constants";
 
-const AlertConfirmDialog = ({ countSelected }) => {
+const postRequestInit = {
+  method: "POST",
+  mode: "cors",
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
+const fetchURL = async (url, init) => {
+  const response = await fetch(url, init);
+  return await response.json();
+};
+
+const AlertConfirmDialog = ({ imagesSelected }) => {
+  const countSelected = imagesSelected.length;
   const [showDialog, setShowDialog] = useState(false);
   const cancelRef = useRef();
-  const dialogLabel = `Send ${countSelected} photo(s) to website`;
+  const DIALOG_LABEL = `Send ${countSelected} photo(s) to website`;
   const open = () => setShowDialog(true);
-  const destroyStuff = () => {
-    console.log("Destroyed!");
+  const uploadPhotos = () => {
     setShowDialog(false);
+    imagesSelected.forEach((imageId) => {
+      const data = { id: imageId };
+      fetchURL(`${UPLOAD_PHOTO_API}${imageId}`, postRequestInit)
+        .then((parsedData) => console.log("Data", parsedData))
+        .catch((error) => {
+          console.log("Error: ", error);
+        });
+    });
   };
 
   const close = () => setShowDialog(false);
@@ -33,13 +56,13 @@ const AlertConfirmDialog = ({ countSelected }) => {
       />
       {showDialog && (
         <AlertDialogStyled onDismiss={close} leastDestructiveRef={cancelRef}>
-          <AlertDialogLabel>{dialogLabel}</AlertDialogLabel>
+          <AlertDialogLabel>{DIALOG_LABEL}</AlertDialogLabel>
 
           <AlertButtonContainer>
             <AlertButton ref={cancelRef} onClick={close}>
               Cancel
             </AlertButton>
-            <ConfirmButton onClick={destroyStuff}>
+            <ConfirmButton onClick={uploadPhotos}>
               Send to Website
             </ConfirmButton>
           </AlertButtonContainer>
@@ -50,7 +73,7 @@ const AlertConfirmDialog = ({ countSelected }) => {
 };
 
 AlertConfirmDialog.propTypes = {
-  countSelected: PropTypes.number,
+  imagesSelected: PropTypes.array,
 };
 
 export default AlertConfirmDialog;
