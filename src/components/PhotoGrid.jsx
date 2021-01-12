@@ -39,12 +39,15 @@ const PhotoGrid = () => {
   // Initialize the state with data from the API
   useEffect(() => {
     fetch(PHOTO_API)
-      .then(async (response) => {
-        const resolvedResponse = await response.json();
-        setState((prevState) => {
-          return { ...prevState, images: [...resolvedResponse.photos] };
-        });
-        return resolvedResponse;
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseData) => {
+        setState((currentState) => ({
+          ...currentState,
+          images: [...responseData.photos],
+        }));
+        return responseData;
       })
       .catch((error) => console.log("ERROR:", error));
   }, []);
@@ -90,7 +93,7 @@ const PhotoGrid = () => {
         })}
       </PhotoGridContainer>
       <FooterPhotoGrid
-        countSelected={state.imagesSelected.length}
+        imagesSelected={state.imagesSelected}
         clearSelection={clearSelection}
       />
     </>
