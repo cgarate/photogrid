@@ -37,8 +37,8 @@ export const OverlayCheckbox = styled.div`
   bottom: 0;
   left: 5px;
   right: 0;
-  height: 25px;
-  width: 25px;
+  height: 24px;
+  width: 24px;
   opacity: ${(props) => (props.showCheckboxIcon ? 1 : 0)};
   transition: 0.3s ease;
 `;
