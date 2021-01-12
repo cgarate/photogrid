@@ -59,7 +59,7 @@ const PhotoGrid = () => {
           return (
             <PhotoGridColumn key={`column-${index}`}>
               {imagesColumn.map((image) => {
-                const idIsCurrentlySelected = state.imagesSelected.includes(
+                const isImageCurrentlySelected = state.imagesSelected.includes(
                   image.id,
                 );
                 return (
@@ -68,18 +68,18 @@ const PhotoGrid = () => {
                     onClick={() => selectImage(image.id)}
                   >
                     <img src={image.url} alt="" />
-                    <OverlayCheckbox showCheckboxIcon={idIsCurrentlySelected}>
-                      {idIsCurrentlySelected ? (
+                    <OverlayCheckbox showCheckboxIcon={isImageCurrentlySelected}>
+                      {isImageCurrentlySelected ? (
                         <AiFillCheckCircle
-                          style={{
-                            marginRight: "10px",
-                          }}
+                          // style={{
+                          //   textAlign: "center"
+                          // }}
                           fontSize="1.5rem"
                           color="#1E6FDE"
                         />
                       ) : (
                         <AiFillCheckCircle
-                          style={{ marginRight: "10px" }}
+                          // style={{ marginRight: "10px" }}
                           fontSize="1.5rem"
                           color="#aaaaaa"
                         />
