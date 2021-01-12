@@ -15,6 +15,7 @@ export const FlexContainer = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  padding: 5px;
 `;
 
 export const Container = styled.div`

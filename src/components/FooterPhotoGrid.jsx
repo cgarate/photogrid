@@ -1,14 +1,10 @@
 import React from "react";
 import { BsPersonBoundingBox } from "react-icons/bs";
 import PropTypes from "prop-types";
-import { BiShareAlt } from "react-icons/bi";
 
-import {
-  FooterContainer,
-  FlexContainer,
-  Container,
-} from "./footerPhotoGridStyles";
+import { FooterContainer, FlexContainer } from "./footerPhotoGridStyles";
 import ShowSelectedCount from "./ShowSelectedCount";
+import AlertConfirmDialog from "./AlertConfirmDialog";
 
 const FooterPhotoGrid = ({ countSelected, clearSelection }) => {
   return (
@@ -19,16 +15,12 @@ const FooterPhotoGrid = ({ countSelected, clearSelection }) => {
           clearSelection={clearSelection}
         />
 
-        <Container>
+        <FlexContainer>
           {countSelected > 0 ? (
-            <BiShareAlt
-              style={{ marginRight: "10px" }}
-              fontSize="2rem"
-              color="#999999"
-            />
+            <AlertConfirmDialog countSelected={countSelected} />
           ) : null}
           <BsPersonBoundingBox fontSize="2rem" color="#999999" />
-        </Container>
+        </FlexContainer>
       </FlexContainer>
     </FooterContainer>
   );
