@@ -71,12 +71,14 @@ const usePhotoGrid = () => {
   const uploadPhotosHandler = () => {
     photoGridState.imagesSelected.forEach((imageId) => {
       fetchURL(`${UPLOAD_PHOTO_API}${imageId}`, postRequestInit)
-        .then((parsedData) =>
-          dispatch({
-            type: ACTION_SET_UPLOAD_TO_PENDING_APPROVAL,
-            payload: parsedData.photo,
-          }),
-        )
+        .then((parsedData) => {
+          if (!parsedData.error) {
+            dispatch({
+              type: ACTION_SET_UPLOAD_TO_PENDING_APPROVAL,
+              payload: parsedData.photo,
+            });
+          }
+        })
         .catch((error) => {
           console.log("Error: ", error);
         });
