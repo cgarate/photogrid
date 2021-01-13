@@ -28,7 +28,7 @@ export const PhotoGridColumn = styled.div`
 `;
 
 // Overlay component to select the photo
-export const OverlayCheckbox = styled.div`
+export const OverlayCheckbox = styled.section`
   border: 2px solid #bbbbbb;
   border-radius: 50%;
   background-color: #ffffff;
@@ -44,7 +44,7 @@ export const OverlayCheckbox = styled.div`
 `;
 
 // Overlay component to select the photo
-export const OverlayShare = styled.div`
+export const OverlayShared = styled.div`
   border: 2px solid #dddddd;
   border-radius: 50%;
   background-color: transparent;
@@ -58,6 +58,21 @@ export const OverlayShare = styled.div`
   transition: 0.3s ease;
 `;
 
+export const OverlayPending = styled.div`
+  border: 2px solid #dddddd;
+  border-radius: 50%;
+  padding: 15px;
+  background-color: #ff5500;
+  position: absolute;
+  top: 80px;
+  bottom: 0;
+  right: 140px;
+  height: 160px;
+  width: 160px;
+  opacity: ${(props) => (props.showPendingIcon ? 1 : 0)};
+  transition: 0.3s ease;
+`;
+
 // Contains the img and the overlay checkbox
 export const ImageCard = styled.div`
   position: relative;
@@ -68,7 +83,7 @@ export const ImageCard = styled.div`
     width: 100%;
   }
 
-  :hover > div {
+  :hover > section {
     opacity: 1;
   }
 `;

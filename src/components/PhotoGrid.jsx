@@ -1,12 +1,17 @@
 import React from "react";
 import { splitEvery } from "ramda";
-import { AiFillCheckCircle, AiOutlineShareAlt } from "react-icons/ai";
+import {
+  AiFillCheckCircle,
+  AiOutlineShareAlt,
+  AiOutlineHourglass,
+} from "react-icons/ai";
 
 import {
   PhotoGridContainer,
   PhotoGridColumn,
   OverlayCheckbox,
-  OverlayShare,
+  OverlayShared,
+  OverlayPending,
   ImageCard,
 } from "./photoGridStyles";
 
@@ -38,6 +43,8 @@ const PhotoGrid = () => {
                 );
                 const hasImageBeenApproved =
                   image.website === API_WEBSITE_APPROVED;
+                const isImagePendingForApproval =
+                  image.website === API_PENDING_APPROVAL;
 
                 return (
                   <ImageCard
@@ -54,9 +61,12 @@ const PhotoGrid = () => {
                         <AiFillCheckCircle fontSize="1.5rem" color="#aaaaaa" />
                       )}
                     </OverlayCheckbox>
-                    <OverlayShare showShareIcon={hasImageBeenApproved}>
+                    <OverlayShared showShareIcon={hasImageBeenApproved}>
                       <AiOutlineShareAlt fontSize="1.4rem" color="#ff9900" />
-                    </OverlayShare>
+                    </OverlayShared>
+                    <OverlayPending showPendingIcon={isImagePendingForApproval}>
+                      <AiOutlineHourglass fontSize="10rem" color="#ffff00" />
+                    </OverlayPending>
                   </ImageCard>
                 );
               })}
