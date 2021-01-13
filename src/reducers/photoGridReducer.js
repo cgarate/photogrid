@@ -5,6 +5,7 @@ import {
   ACTION_CLEAR_IMAGE_SELECTION,
   ACTION_LOAD_INITIAL_DATA,
   ACTION_SET_UPLOAD_TO_PENDING_APPROVAL,
+  ACTION_SET_UPLOAD_TO_APPROVED,
 } from "../constants";
 import { replaceArrayItem } from "../utils";
 
@@ -37,6 +38,17 @@ const photoGridReducer = (state, action) => {
         action.payload,
       );
       return { ...state, images: [...newImages] };
+
+    case ACTION_SET_UPLOAD_TO_APPROVED:
+      const indexToSet = findIndex(propEq("id", action.payload.id))(
+        state.images,
+      );
+      const imagesNew = replaceArrayItem(
+        state.images,
+        indexToSet,
+        action.payload,
+      );
+      return { ...state, images: [...imagesNew] };
 
     default:
       return state;
