@@ -1,6 +1,6 @@
 export const PHOTO_API = "http://localhost:3001/photos";
 export const UPLOAD_PHOTO_API = "http://localhost:3001/website/photos/";
-export const WS_CONNECTION = "http://localhost:3001/ws";
+export const WS_CONNECTION = "ws://localhost:3001/ws";
 
 export const ACTION_SELECT_IMAGE = "ACTION_SELECT_IMAGE";
 export const ACTION_CLEAR_IMAGE_SELECTION = "ACTION_CLEAR_IMAGE_SELECTION";
@@ -8,6 +8,7 @@ export const ACTION_UPLOAD_IMAGES = "ACTION_UPLOAD_IMAGES";
 export const ACTION_LOAD_INITIAL_DATA = "ACTION_LOAD_INITIAL_DATA";
 export const ACTION_SET_UPLOAD_TO_PENDING_APPROVAL =
   "ACTION_SET_UPLOAD_TO_PENDING_APPROVAL";
+export const ACTION_SET_UPLOAD_TO_APPROVED = "ACTION_SET_UPLOAD_TO_APPROVED";
 
 export const API_PENDING_APPROVAL = "PENDING_APPROVAL";
 export const API_WEBSITE_APPROVED = "WEBSITE_APPROVED";
