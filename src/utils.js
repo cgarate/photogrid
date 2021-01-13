@@ -3,3 +3,8 @@ export const replaceArrayItem = (arr, index, newVal) => [
   newVal,
   ...arr.slice(index + 1),
 ];
+
+export const fetchURL = async (url, init) => {
+  const response = await fetch(url, init);
+  return await response.json();
+};
