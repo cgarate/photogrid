@@ -1,13 +1,18 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 
 import photoGridReducer from "../reducers/photoGridReducer";
 import {
   ACTION_SELECT_IMAGE,
   ACTION_CLEAR_IMAGE_SELECTION,
   ACTION_LOAD_INITIAL_DATA,
-  ACTION_SET_UPLOAD_TO_PENDING_APPROVAL
+  ACTION_SET_UPLOAD_TO_PENDING_APPROVAL,
+  ACTION_SET_UPLOAD_TO_APPROVED,
+  PHOTO_API,
+  UPLOAD_PHOTO_API,
+  WS_CONNECTION,
+  API_WEBSITE_APPROVED,
 } from "../constants";
-import { PHOTO_API, UPLOAD_PHOTO_API } from "../constants";
+import { fetchURL } from "../utils";
 
 const postRequestInit = {
   method: "POST",
@@ -15,11 +20,6 @@ const postRequestInit = {
   headers: {
     "Content-Type": "application/json",
   },
-};
-
-const fetchURL = async (url, init) => {
-  const response = await fetch(url, init);
-  return await response.json();
 };
 
 const initialState = {
@@ -31,13 +31,11 @@ const usePhotoGrid = () => {
   const [photoGridState, dispatch] = useReducer(photoGridReducer, initialState);
   const countSelected = photoGridState.imagesSelected.length;
   const shareDialogMessage = `Send ${countSelected} photo(s) to website`;
+  const webSocket = useRef(null);
 
   // Initialize the state with data from the API
   useEffect(() => {
-    fetch(PHOTO_API)
-      .then((response) => {
-        return response.json();
-      })
+    fetchURL(PHOTO_API)
       .then((responseData) => {
         dispatch({
           type: ACTION_LOAD_INITIAL_DATA,
@@ -45,6 +43,21 @@ const usePhotoGrid = () => {
         });
       })
       .catch((error) => console.log("ERROR:", error));
+  }, []);
+
+  // Open the Websocket connection
+  useEffect(() => {
+    webSocket.current = new WebSocket(WS_CONNECTION);
+    webSocket.current.onmessage = (message) => {
+      const parsedMessage = JSON.parse(message.data);
+      if (parsedMessage.event === API_WEBSITE_APPROVED) {
+        dispatch({
+          type: ACTION_SET_UPLOAD_TO_APPROVED,
+          payload: parsedMessage.photo,
+        });
+      }
+    };
+    return () => webSocket.current.close();
   }, []);
 
   const selectImageHandler = (imageId) => {
@@ -68,7 +81,7 @@ const usePhotoGrid = () => {
           console.log("Error: ", error);
         });
     });
-    // dispatch({ type: ACTION_UPLOAD_IMAGES, payload: { images: state.imagesSelected } });
+    clearSelectionHandler();
   };
 
   return [
