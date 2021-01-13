@@ -11,37 +11,15 @@ import {
   ConfirmButton,
   AlertButton,
 } from "./AlertConfirmDialogStyles";
-// import useUploadPhoto from "../hooks/useUploadPhoto";
-import { UPLOAD_PHOTO_API } from "../constants";
 
-const postRequestInit = {
-  method: "POST",
-  mode: "cors",
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
-
-const fetchURL = async (url, init) => {
-  const response = await fetch(url, init);
-  return await response.json();
-};
-
-const AlertConfirmDialog = ({ imagesSelected }) => {
-  const countSelected = imagesSelected.length;
+const AlertConfirmDialog = ({ shareDialogMessage, uploadPhotosHandler }) => {
   const [showDialog, setShowDialog] = useState(false);
   const cancelRef = useRef();
-  const DIALOG_LABEL = `Send ${countSelected} photo(s) to website`;
+
   const open = () => setShowDialog(true);
   const uploadPhotos = () => {
     setShowDialog(false);
-    imagesSelected.forEach((imageId) => {
-      fetchURL(`${UPLOAD_PHOTO_API}${imageId}`, postRequestInit)
-        .then((parsedData) => console.log("Data", parsedData))
-        .catch((error) => {
-          console.log("Error: ", error);
-        });
-    });
+    uploadPhotosHandler();
   };
 
   const close = () => setShowDialog(false);
@@ -55,7 +33,7 @@ const AlertConfirmDialog = ({ imagesSelected }) => {
       />
       {showDialog && (
         <AlertDialogStyled onDismiss={close} leastDestructiveRef={cancelRef}>
-          <AlertDialogLabel>{DIALOG_LABEL}</AlertDialogLabel>
+          <AlertDialogLabel>{shareDialogMessage}</AlertDialogLabel>
 
           <AlertButtonContainer>
             <AlertButton ref={cancelRef} onClick={close}>
@@ -72,7 +50,8 @@ const AlertConfirmDialog = ({ imagesSelected }) => {
 };
 
 AlertConfirmDialog.propTypes = {
-  imagesSelected: PropTypes.array,
+  shareDialogMessage: PropTypes.string,
+  uploadPhotosHandler: PropTypes.func,
 };
 
 export default AlertConfirmDialog;

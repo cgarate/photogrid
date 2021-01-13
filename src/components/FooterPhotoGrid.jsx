@@ -6,19 +6,26 @@ import { FooterContainer, FlexContainer } from "./footerPhotoGridStyles";
 import ShowSelectedCount from "./ShowSelectedCount";
 import AlertConfirmDialog from "./AlertConfirmDialog";
 
-const FooterPhotoGrid = ({ imagesSelected, clearSelection }) => {
-  const countSelected = imagesSelected.length;
+const FooterPhotoGrid = ({
+  countSelected,
+  clearSelectionHandler,
+  uploadPhotosHandler,
+  shareDialogMessage,
+}) => {
   return (
     <FooterContainer>
       <FlexContainer>
         <ShowSelectedCount
           countSelected={countSelected}
-          clearSelection={clearSelection}
+          clearSelection={clearSelectionHandler}
         />
 
         <FlexContainer>
           {countSelected > 0 ? (
-            <AlertConfirmDialog imagesSelected={imagesSelected} />
+            <AlertConfirmDialog
+              shareDialogMessage={shareDialogMessage}
+              uploadPhotosHandler={uploadPhotosHandler}
+            />
           ) : null}
           <BsPersonBoundingBox fontSize="2rem" color="#999999" />
         </FlexContainer>
@@ -28,8 +35,10 @@ const FooterPhotoGrid = ({ imagesSelected, clearSelection }) => {
 };
 
 FooterPhotoGrid.propTypes = {
-  imagesSelected: PropTypes.array,
-  clearSelection: PropTypes.func,
+  countSelected: PropTypes.number,
+  clearSelectionHandler: PropTypes.func,
+  uploadPhotosHandler: PropTypes.func,
+  shareDialogMessage: PropTypes.string,
 };
 
 export default FooterPhotoGrid;
