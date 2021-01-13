@@ -43,6 +43,21 @@ export const OverlayCheckbox = styled.div`
   transition: 0.3s ease;
 `;
 
+// Overlay component to select the photo
+export const OverlayShare = styled.div`
+  border: 2px solid #dddddd;
+  border-radius: 50%;
+  background-color: transparent;
+  position: absolute;
+  top: 15px;
+  bottom: 0;
+  right: 5px;
+  height: 24px;
+  width: 24px;
+  opacity: ${(props) => (props.showShareIcon ? 1 : 0)};
+  transition: 0.3s ease;
+`;
+
 // Contains the img and the overlay checkbox
 export const ImageCard = styled.div`
   position: relative;

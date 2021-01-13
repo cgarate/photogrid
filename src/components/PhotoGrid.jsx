@@ -1,56 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { splitEvery } from "ramda";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { AiFillCheckCircle, AiOutlineShareAlt } from "react-icons/ai";
 
 import {
   PhotoGridContainer,
   PhotoGridColumn,
   OverlayCheckbox,
+  OverlayShare,
   ImageCard,
 } from "./photoGridStyles";
-import { PHOTO_API } from "../constants";
-import FooterPhotoGrid from "./FooterPhotoGrid";
 
-const initialState = {
-  images: [],
-  imagesSelected: [],
-};
+import FooterPhotoGrid from "./FooterPhotoGrid";
+import usePhotoGrid from "../hooks/usePhotoGrid";
+import { API_PENDING_APPROVAL, API_WEBSITE_APPROVED } from "../constants";
 
 const PhotoGrid = () => {
-  const [state, setState] = useState(initialState);
+  const [
+    photoGridState,
+    selectImageHandler,
+    clearSelectionHandler,
+    uploadPhotosHandler,
+    countSelected,
+    shareDialogMessage,
+  ] = usePhotoGrid();
   // Split the array of images so we can loop columns
-  const splitImagesData = splitEvery(4, state.images);
-
-  // Handler for onClick and select images
-  const selectImage = (id) => {
-    setState((prevState) => {
-      const idIsCurrentlySelected = prevState.imagesSelected.includes(id);
-      const newImagesSelected = idIsCurrentlySelected
-        ? prevState.imagesSelected.filter((imageId) => imageId !== id)
-        : [...prevState.imagesSelected, id];
-      return { ...prevState, imagesSelected: newImagesSelected };
-    });
-  };
-
-  const clearSelection = () => {
-    setState((prevState) => ({ ...prevState, imagesSelected: [] }));
-  };
-
-  // Initialize the state with data from the API
-  useEffect(() => {
-    fetch(PHOTO_API)
-      .then((response) => {
-        return response.json();
-      })
-      .then((responseData) => {
-        setState((currentState) => ({
-          ...currentState,
-          images: [...responseData.photos],
-        }));
-        return responseData;
-      })
-      .catch((error) => console.log("ERROR:", error));
-  }, []);
+  const splitImagesData = splitEvery(4, photoGridState.images);
 
   return (
     <>
@@ -59,13 +33,16 @@ const PhotoGrid = () => {
           return (
             <PhotoGridColumn key={`column-${index}`}>
               {imagesColumn.map((image) => {
-                const isImageCurrentlySelected = state.imagesSelected.includes(
+                const isImageCurrentlySelected = photoGridState.imagesSelected.includes(
                   image.id,
                 );
+                const hasImageBeenApproved =
+                  image.website === API_WEBSITE_APPROVED;
+
                 return (
                   <ImageCard
                     key={image.id}
-                    onClick={() => selectImage(image.id)}
+                    onClick={() => selectImageHandler(image.id)}
                   >
                     <img src={image.url} alt="" />
                     <OverlayCheckbox
@@ -77,6 +54,9 @@ const PhotoGrid = () => {
                         <AiFillCheckCircle fontSize="1.5rem" color="#aaaaaa" />
                       )}
                     </OverlayCheckbox>
+                    <OverlayShare showShareIcon={hasImageBeenApproved}>
+                      <AiOutlineShareAlt fontSize="1.4rem" color="#ff9900" />
+                    </OverlayShare>
                   </ImageCard>
                 );
               })}
@@ -85,8 +65,10 @@ const PhotoGrid = () => {
         })}
       </PhotoGridContainer>
       <FooterPhotoGrid
-        imagesSelected={state.imagesSelected}
-        clearSelection={clearSelection}
+        countSelected={countSelected}
+        uploadPhotosHandler={uploadPhotosHandler}
+        shareDialogMessage={shareDialogMessage}
+        clearSelectionHandler={clearSelectionHandler}
       />
     </>
   );
